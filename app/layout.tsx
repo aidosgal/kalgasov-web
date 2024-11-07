@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from 'next/link';
+import SidebarNav from "@/components/SidebarNav";
+
 import {
   HiOutlineHome,
   HiOutlineUserGroup,
@@ -39,14 +42,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} bg-[#f9f9f9] ${geistMono.variable} antialiased`}
       >
-       <div className='bg-white flex py-4 border-b border-gray-200'>
+        {/* Navbar */}
+       <div className='bg-white fixed top-0 left-0 w-full flex py-4 border-b border-gray-200 z-10'>
         <div className="grid grid-cols-12 items-center flex px-10 w-[1200px] mx-auto">
-           <div className='col-span-3'>
+           <a href='/' className='col-span-3 block'>
                <img
                 src='/logo.png'
                 className='w-[150px]'
                 />
-           </div> 
+           </a> 
            <div className='col-span-7'>
             <div className="w-[300px] relative rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -62,7 +66,7 @@ export default function RootLayout({
               </div>
            </div>
            <div className='col-span-2'>
-                <div className='flex items-center gap-x-3'>
+                <a href='/user/aidosgal' className='flex items-center gap-x-3'>
                     <img
                         src='/default.png'
                         className='w-[40px] h-[40px] rounded-full object-contain'
@@ -71,41 +75,23 @@ export default function RootLayout({
                         <div>Айдос Галимжан</div>
                         <div className='text-gray-500 text-sm'>@aidosgal</div>
                     </div>
-                </div>
+                </a>
            </div>
         </div>
        </div>
-       <div className="grid grid-cols-12 mt-5 w-[1200px] mx-auto">
-        <div className="col-span-3 space-y-2 px-5">
-          <div className="flex items-center gap-x-3  text-black w-full bg-white rounded-lg px-4 py-2 hover:text-black cursor-pointer">
-            <HiOutlineHome className="text-2xl" />
-            Лента
-          </div>
-          <div className="flex items-center gap-x-3 text-gray-600 hover:text-black cursor-pointer px-4 py-2">
-            <HiOutlineUserGroup className="text-2xl" />
-            Подписки
-          </div>
-          <div className="flex items-center gap-x-3 text-gray-600 hover:text-black cursor-pointer px-4 py-2">
-            <HiOutlineChatBubbleOvalLeft className="text-2xl"/>
-            Сообщения
-          </div>
-          <div className="flex items-center gap-x-3 text-gray-600 hover:text-black cursor-pointer px-4 py-2">
-            <BsShop className="text-2xl"/>
-            Магазины
-          </div>
-          <div className="flex items-center gap-x-3 text-gray-600 hover:text-black cursor-pointer px-4 py-2">
-            <HiOutlineShoppingBag className="text-2xl"/>
-            Товары
-          </div>
-          <div className="flex items-center gap-x-3 text-gray-600 hover:text-black cursor-pointer px-4 py-2">
-            <HiOutlineStar className="text-2xl" />
-            Избранные
-          </div>
+
+       <div className="grid grid-cols-12 mt-[90px] w-[1200px] mx-auto">
+        
+        <div className="col-span-3 sticky top-[80px] space-y-2 px-5 h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide">
+            <SidebarNav /> 
         </div>
 
-        <div className="col-span-9">{children}</div>
+        <div className="col-span-9 overflow-y-auto max-h-[calc(100vh-80px)] scrollbar-hide">
+          {children}
+        </div>
       </div> 
       </body>
     </html>
   );
 }
+
