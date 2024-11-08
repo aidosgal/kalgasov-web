@@ -297,6 +297,7 @@ const PostCard: React.FC<PostProps> = ({ post }) => {
           ))}
         </div>
       )}
+      {userData && (
       <div className="flex gap-x-3 mt-4 px-10 items-center">
         <div className="flex-shrink-0">
           {userData.avatar ? (
@@ -329,6 +330,7 @@ const PostCard: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 };
