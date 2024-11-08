@@ -1,12 +1,11 @@
+// @ts-ignore
 "use client";
 import { HiOutlineX, HiOutlinePhotograph } from "react-icons/hi";
 import { useEffect, useState, useRef } from "react";
 import PostCard from "@/components/PostCard";
 
 interface UserPageProps {
-  params: {
-    user_id: string;
-  };
+  params: Promise<{ user_id: string }>;
 }
 
 interface UserData {
@@ -67,27 +66,21 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const resolvedParams = await params;
-      setUserId(resolvedParams.user_id);
+      const { user_id } = await params;
+      setUserId(user_id);
+
+      const storedData = localStorage.getItem("userData");
+      if (storedData) {
+        setUserData(JSON.parse(storedData));
+      }
+
+      const response = await fetch(`https://sheber.shop/api/user/${user_id}`);
+      const data = await response.json();
+      setUser(data.user);
     };
 
     fetchUserData();
-  }, [params]);
-
-  useEffect(() => {
-    if (userId) {
-      const fetchUserData = async () => {
-        const storedData = localStorage.getItem("userData");
-        if (storedData) {
-          setUserData(JSON.parse(storedData));
-        }
-        const response = await fetch(`https://sheber.shop/api/user/${userId}`);
-        const data = await response.json();
-        setUser(data.user);
-      };
-      fetchUserData();
-    }
-  }, [userId]);
+  }, [params]); 
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -242,15 +235,19 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
               </form>
             </div>
           )}
-          {user?.posts.length > 0 ? (
-            <div>
-              {user.posts.map((post, index) => (
-                <PostCard key={index} post={post} />
-              ))}
-            </div>
-          ) : (
-            <div></div>
-          )}
+          {user ? (
+              user.posts.length > 0 ? (
+                <div>
+                  {user.posts.map((post, index) => (
+                    <PostCard key={index} post={post} />
+                  ))}
+                </div>
+              ) : (
+                <div></div>
+              )
+            ) : (
+              <div></div>
+            )} 
         </div>
         <div className="col-span-4">
           <div className="p-5 bg-white rounded-lg border border-gray-200">

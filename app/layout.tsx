@@ -7,6 +7,7 @@ import SidebarNav from "@/components/SidebarNav";
 import { HiOutlineSearch } from "react-icons/hi";
 
 interface UserData {
+  id: number;
   name: string;
   last_name: string;
   email: string;

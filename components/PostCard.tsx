@@ -5,7 +5,43 @@ import { IoMdArrowUp } from "react-icons/io";
 import axios from "axios";
 import { formatTimestamp } from "@/utils/formatTimestaps";
 
-const PostCard = ({ post }) => {
+interface Comment {
+  id: number;
+  post_id: number;
+  user_id: number;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  responses: {
+    id: number;
+    comment_id: number;
+    user_id: number;
+    content: string;
+    created_at: string;
+    updated_at: string;
+  }[];
+}
+
+interface PostProps {
+  post: {
+    id: number;
+    user_id: number;
+    description: string;
+    created_at: string;
+    updated_at: string;
+    images: {
+      id: number;
+      post_id: number;
+      image_url: string;
+      created_at: string;
+      updated_at: string;
+    }[];
+    comments: Comment[];
+  };
+}
+
+
+const PostCard: React.FC<PostProps> = ({ post }) => {
   const [newComment, setNewComment] = useState("");
   const [newReply, setNewReply] = useState("");
   const [replyingToComment, setReplyingToComment] = useState(null);

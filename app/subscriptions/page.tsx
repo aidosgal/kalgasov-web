@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Metadata } from 'next';
 import Image from "next/image";
 import { HiOutlineHeart, HiOutlineChatAlt2, HiOutlineSearch} from "react-icons/hi";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   description: "Profile page for individual users",
 };
 
-const SubPage: React.FC<UserPageProps> = ({ params }) => {
+const SubPage = () => {
 
   return (
     <div className='grid grid-cols-3 gap-x-3'>
